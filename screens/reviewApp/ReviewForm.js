@@ -45,6 +45,7 @@ const ReviewForm = props => {
                         <TextInput
                             style={globalStyles.input}
                             placeholder="Review title"
+                            placeholderTextColor={Colors.darkGrey}
                             onChangeText={formikProps.handleChange('title')}
                             value={formikProps.values.title}
                             onBlur={formikProps.handleBlur('title')}
@@ -57,6 +58,7 @@ const ReviewForm = props => {
                             minHeight={60}
                             style={globalStyles.input}
                             placeholder="Body"
+                            placeholderTextColor={Colors.darkGrey}
                             onChangeText={formikProps.handleChange('body')}
                             value={formikProps.values.body}
                             onBlur={formikProps.handleBlur('body')}
@@ -68,6 +70,7 @@ const ReviewForm = props => {
                         <TextInput
                             style={globalStyles.input}
                             placeholder="Rating (1-5)"
+                            placeholderTextColor={Colors.darkGrey}
                             onChangeText={formikProps.handleChange('rating')}
                             value={formikProps.values.rating}
                             onBlur={formikProps.handleBlur('rating')}
@@ -78,9 +81,7 @@ const ReviewForm = props => {
                         </Text>
                         <FlatButton
                             text="submit"
-                            color={Colors.white}
-                            bgColor={Colors.darkBlue}
-                            fontSize={18}
+                            buttonContainer={styles.buttonContainer}
                             onPress={formikProps.handleSubmit}
                         />
                     </View>
@@ -91,3 +92,9 @@ const ReviewForm = props => {
 }
 
 export default ReviewForm;
+
+const styles = StyleSheet.create({
+    buttonContainer: {
+        backgroundColor: Colors.darkBlue,
+    }
+});

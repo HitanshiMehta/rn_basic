@@ -5,20 +5,18 @@ import {
     Text,
     View
 } from 'react-native'
-import { color } from 'react-native-reanimated';
+import Colors from '../../constants/review/Colors'
 
 const FlatButton = props => {
-    const { text, onPress, bgColor, color, fontSize } = props
+    const { text, onPress, buttonContainer, buttonText } = props
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={{
-                ...styles.button,
-                backgroundColor: bgColor,
-            }}>
+            <View style={
+                { ...styles.button, ...buttonContainer }
+            }>
                 <Text style={{
                     ...styles.buttonText,
-                    color: color,
-                    fontSize: fontSize
+                    ...buttonText
                 }}>
                     {text}
                 </Text>
@@ -31,13 +29,14 @@ export default FlatButton;
 
 const styles = StyleSheet.create({
     button: {
-        borderRadius: 10,
+        borderRadius: 20,
         paddingVertical: 14,
-        paddingHorizontal: 10,
+        paddingHorizontal: 10
     },
     buttonText: {
         fontWeight: "bold",
-        textTransform: "uppercase",
-        textAlign: "center"
+        textAlign: "center",
+        color: Colors.white,
+        fontSize: 18
     }
 });

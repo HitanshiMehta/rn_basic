@@ -26,8 +26,7 @@ export const globalStyles = StyleSheet.create({
         color: Colors.darkBlue,
         padding: 10,
         fontSize: 18,
-        borderRadius: 6,
-        margin: 5
+        borderRadius: 10,
     },
     iconWithBorder: {
         color: Colors.darkGrey,
@@ -43,7 +42,7 @@ export const globalStyles = StyleSheet.create({
     error: {
         color: 'crimson',
         fontSize: 18,
-        textAlign: "center"
+        marginLeft: 20
     }
 });
 

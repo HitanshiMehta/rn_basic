@@ -6,5 +6,6 @@ export default {
     darkPink: "#ab005b",
     darkBlue: "#004746",
     white: "#ffffff",
-    darkRed: "#d60000"
+    darkRed: "#d60000",
+    darkPurple: "#2f0061"
 }
