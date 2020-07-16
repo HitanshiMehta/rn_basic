@@ -169,6 +169,7 @@ const LoginScreen = () => {
                     />
                 </Svg>
             </Animated.View>
+            <View>Hello</View>
             <Animated.View style={[
                 styles.imageButtonView,
                 {
