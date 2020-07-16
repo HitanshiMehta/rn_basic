@@ -10,7 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import Svg, { Image, Circle, ClipPath } from 'react-native-svg'
-import { TapGestureHandler, State } from 'react-native-gesture-handler'
+import { TapGestureHandler } from 'react-native-gesture-handler'
 
 import Colors from '../../constants/review/Colors'
 import LoginForm from './LoginForm';
