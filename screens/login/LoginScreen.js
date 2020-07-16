@@ -89,7 +89,6 @@ const LoginScreen = () => {
 
     // As sign in button hide(opacity: 1 -> 0)
     // we are transforming button(buttonY)
-    //****(In LoginForm component) *****//
     // Showing Form(formZIndex)
     // Increasing form opacity and transforming
     // And also rotateCross
@@ -198,8 +197,7 @@ const LoginScreen = () => {
                     </Animated.View>
                 </TapGestureHandler>
             </Animated.View>
-            <Animated.View style={[
-                
+            <Animated.View style={[        
                 styles.singIn,
                 {
                     zIndex: formZIndex,
