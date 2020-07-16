@@ -170,6 +170,7 @@ const LoginScreen = () => {
                 </Svg>
             </Animated.View>
             <View>Hello</View>
+            <View>PKUDA</View>
             <Animated.View style={[
                 styles.imageButtonView,
                 {
