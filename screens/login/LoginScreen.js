@@ -199,6 +199,7 @@ const LoginScreen = () => {
                 </TapGestureHandler>
             </Animated.View>
             <Animated.View style={[
+                
                 styles.singIn,
                 {
                     zIndex: formZIndex,
