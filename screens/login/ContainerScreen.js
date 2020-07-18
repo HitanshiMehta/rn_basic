@@ -45,7 +45,6 @@ const ContainerScreen = () => {
     }
     return (
         <LoginScreen />
-        // <Test />
     )
 }
 

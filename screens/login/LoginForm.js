@@ -34,42 +34,42 @@ const loginSchema = yup.object({
 })
 
 const LoginForm = props => {
-    const { buttonAnim,
+    const { signInAnim,
         setBgY,
         isKeyboardVisible,
-        setKeyboardVisible
+        setKeyboardVisible,
+        isItSignUp
     } = props
-    // const formZIndex = buttonAnim.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [1, -1],
-    // });
+    const formZIndex = signInAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, -1],
+    });
 
-    // const formOpacity = buttonAnim.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [1, 0]
-    // });
+    const formOpacity = signInAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 0]
+    });
 
-    // const formTransform = buttonAnim.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [0, 100]
-    // });
+    const formTransform = signInAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 100]
+    });
 
-    const rotateCross = buttonAnim.interpolate({
+    const rotateCross = signInAnim.interpolate({
         inputRange: [0, 1],
         outputRange: ['180deg', '360deg']
     })
 
     const onClosePress = async () => {
-        console.log("Hello babu")
         // While closing form if keybord is open we are dismissing it.
         Keyboard.dismiss()
         // Setting state of keyboard to false
         await setKeyboardVisible(false)
         Animated.timing(
-            buttonAnim,
+            signInAnim,
             {
                 toValue: 1,
-                duration: 1000,
+                duration: 1500,
                 easing: Easing.elastic(),
                 useNativeDriver: false
             }
@@ -77,7 +77,7 @@ const LoginForm = props => {
         // Once keybord is close we want to move x position to 0
         if (!isKeyboardVisible) {
             setBgY(
-                buttonAnim.interpolate({
+                signInAnim.interpolate({
                     inputRange: [0, 1],
                     outputRange: [-halfHeight, 0]
                 })
@@ -87,42 +87,31 @@ const LoginForm = props => {
     }
 
     const handleSubmit = values => {
-        firebase.auth().createUserWithEmailAndPassword(
-            values.email,
-            values.password)
-    }
-
-    const clickThaNe = () => {
-        console.log("Thayuu!!")
+        if (values.isSignUp) {
+            firebase.auth().createUserWithEmailAndPassword(
+                values.email,
+                values.password)
+        } else {
+            firebase.auth().signInWithEmailAndPassword(
+                values.email,
+                values.password
+            )
+        }
     }
 
     return (
-        // <Animated.View style={[
-        //     styles.singIn,
-        //     {
-        //         zIndex: formZIndex,
-        //         opacity: formOpacity,
-        //         transform: [{ translateY: formTransform }]
-        //     }
-        // ]}>
-        <>
-            {/* <TapGestureHandler onHandlerStateChange={onClosePress}>
-                <View style={styles.cancelButtonContainer}>
-                    <Animated.View style={styles.cancelButton}>
-                        <Animated.Text style={
-                            [
-                                styles.cancelButtonText,
-                                { transform: [{ rotate: rotateCross }] }
-                            ]
-                        }>
-                            X
-                        </Animated.Text>
-                    </Animated.View>
-                </View>
-            </TapGestureHandler> */}
-            <TapGestureHandler onHandlerStateChange={onClosePress}>
-                {/* <View style={styles.cancelButtonContainer}> */}
-                    {/* <View> */}
+        <Animated.View style={[
+            styles.signIn,
+            {
+                zIndex: formZIndex,
+                opacity: formOpacity,
+                transform: [{ translateY: formTransform }],
+                // backgroundColor: "blue"
+            }
+        ]}>
+            <>
+                <TapGestureHandler onHandlerStateChange={onClosePress}>
+                    {/* <View style={styles.cancelButtonContainer}> */}
                     <Animated.View style={styles.cancelButton}>
                         <Animated.Text style={
                             [
@@ -133,81 +122,106 @@ const LoginForm = props => {
                             X
                     </Animated.Text>
                     </Animated.View>
-                {/* </View> */}
-            </TapGestureHandler>
-            <Formik
-                initialValues={{
-                    email: "",
-                    password: ""
-                }}
-                validationSchema={loginSchema}
-                onSubmit={handleSubmit}
-            >
-                {(formikProps) => (
-                    <View>
-                        <TextInput
-                            placeholder="EMAIL"
-                            style={[
-                                globalStyles.input,
-                                {
-                                    borderColor: Colors.darkPurple,
-                                    marginHorizontal: 20,
-                                    marginTop: 40
-                                }
-                            ]}
-                            placeholderTextColor={Colors.darkPurple}
-                            onChangeText={formikProps.handleChange('email')}
-                            value={formikProps.values.email}
-                            onBlur={formikProps.handleBlur('email')}
-                        />
-                        <Text style={globalStyles.error}>
-                            {formikProps.touched.email && formikProps.errors.email}
-                        </Text>
-                        <TextInput
-                            secureTextEntry
-                            placeholder="PASSWORD"
-                            style={[
-                                globalStyles.input,
-                                {
-                                    borderColor: Colors.darkPurple,
-                                    marginHorizontal: 20,
-                                }
-                            ]}
-                            placeholderTextColor={Colors.darkPurple}
-                            onChangeText={formikProps.handleChange('password')}
-                            value={formikProps.values.password}
-                            onBlur={formikProps.handleBlur('password')}
-                        />
-                        <Text style={globalStyles.error}>
-                            {formikProps.touched.password && formikProps.errors.password}
-                        </Text>
-                        <Animated.View>
-                            <FlatButton
-                                text="SIGN IN"
-                                buttonText={styles.signInText}
-                                buttonContainer={styles.signInContainer}
-                                onPress={formikProps.handleSubmit}
+                    {/* </View> */}
+                </TapGestureHandler>
+                <Formik
+                    initialValues={{
+                        email: "",
+                        password: "",
+                        isSignUp: false
+                    }}
+                    validationSchema={loginSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {(formikProps) => (
+                        <View style={styles.signInForm}>
+                            <TextInput
+                                placeholder="EMAIL"
+                                style={[
+                                    globalStyles.input,
+                                    {
+                                        borderColor: Colors.darkPurple,
+                                        marginHorizontal: 20,
+                                        marginTop: 40
+                                    }
+                                ]}
+                                placeholderTextColor={Colors.darkPurple}
+                                onChangeText={formikProps.handleChange('email')}
+                                value={formikProps.values.email}
+                                onBlur={formikProps.handleBlur('email')}
                             />
-                        </Animated.View>
-                    </View>
-                )}
-            </Formik>
-        </>
-        // </Animated.View>
+                            <Text style={globalStyles.error}>
+                                {formikProps.touched.email && formikProps.errors.email}
+                            </Text>
+                            <TextInput
+                                secureTextEntry
+                                placeholder="PASSWORD"
+                                style={[
+                                    globalStyles.input,
+                                    {
+                                        borderColor: Colors.darkPurple,
+                                        marginHorizontal: 20,
+                                    }
+                                ]}
+                                placeholderTextColor={Colors.darkPurple}
+                                onChangeText={formikProps.handleChange('password')}
+                                value={formikProps.values.password}
+                                onBlur={formikProps.handleBlur('password')}
+                            />
+                            <Text style={globalStyles.error}>
+                                {formikProps.touched.password && formikProps.errors.password}
+                            </Text>
+                            <Animated.View>
+                            </Animated.View>
+                            {isItSignUp ?
+                                <Animated.View>
+                                    <FlatButton
+                                        text="SIGN UP"
+                                        buttonText={styles.signInText}
+                                        buttonContainer={styles.signInContainer}
+                                        onPress={() => {
+                                            formikProps.handleSubmit()
+                                            formikProps.setFieldValue("isSignUp", true, false)
+                                        }
+                                        }
+                                    />
+                                </Animated.View>
+                                :
+                                <Animated.View>
+                                    <FlatButton
+                                        text="SIGN IN"
+                                        buttonText={styles.signInText}
+                                        buttonContainer={styles.signInContainer}
+                                        onPress={formikProps.handleSubmit}
+                                    />
+                                </Animated.View>
+
+                            }
+                        </View>
+                    )}
+                </Formik>
+            </>
+        </Animated.View>
     );
 }
 
 export default LoginForm;
 
 const styles = StyleSheet.create({
-    singIn: {
-        height: halfHeight,
+    signIn: {
         ...StyleSheet.absoluteFill,
+        height: halfHeight,
         top: null,
-        justifyContent: "center",
+        justifyContent: "flex-start"
+    },
+    signInForm: {
+        flex: 1,
+        justifyContent: "center"
     },
     // cancelButtonContainer: {
-    //     // alignItems: "flex-end",
+    //     flex: 1,
+    //     justifyContent: "flex-end",
+    //     top: 20
     // },
     cancelButton: {
         height: 40,
@@ -218,11 +232,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         position: "absolute",
-        top: -rHeight
+        top: 30
     },
     cancelButtonText: {
         fontSize: 20,
-        color: Colors.darkGrey
+        color: Colors.white
     },
     signInText: {
         color: Colors.white,
